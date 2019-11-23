@@ -2,7 +2,7 @@
 <html>
 <head>
   <% include ../partials/header.ejs %>
-  <title>Yenta | Find your sparring partner</title>
+  <title>Yenta | Profile</title>
 </head>
 
 <body>
@@ -13,8 +13,9 @@
   <div class="container">
     <h1>Find your sparring partner</h1>
     <p>It's not a romantic thing. You just need somebody who's got your back.</p>
-    <% include ../partials/signup.ejs %>
-    <% include ../partials/login.ejs %>
+    <%= username %>
+    <%= bio %>
+    
   </div>
 </div>
 

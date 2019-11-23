@@ -1,13 +1,5 @@
-.navbar-right {
-  height: 50px;
-}
-
-  .navbar-right button {
-    margin-top: 8px;
-  }
-
 .modal form {
-  text-align: left !important;
+  text-align: left;
 }
 
   #password-verify {
