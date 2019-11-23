@@ -25,3 +25,10 @@
     .jumbotron .lang-logo img {
       max-width: 100%; }
 
+.navbar-right form {
+  height: 50px;
+}
+
+.navbar-right form input, .navbar-right form button {
+  margin: 8px 0;
+}
