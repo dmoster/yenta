@@ -1,15 +1,15 @@
-.navbar-right form {
+.navbar-right {
   height: 50px;
 }
 
-.navbar-right form input, .navbar-right form button {
-  margin: 8px 0;
-}
+  .navbar-right button {
+    margin-top: 8px;
+  }
 
 .modal form {
   text-align: left !important;
 }
 
-#password-verify {
-  margin-top: 5px;
-}
+  #password-verify {
+    margin-top: 5px;
+  }
