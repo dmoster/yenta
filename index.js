@@ -65,17 +65,43 @@ function logIn(req, res) {
     })
   }
   else if (loginType === 'signup') {
-    const email = req.body.email
-
-    res.status(200).render('pages/profile', {
-      username: username,
-      email: email,
-      password: password
+    addUser(username, password, email, (err, result) => {
+      if (err || result == null || result.length != 1) {
+        res.status(500).send('There was an error with your login.')
+      }
+      else {
+        const user = result[0]
+        const bio = user.bio || 'Please enter a bio'
+        res.status(200).render('pages/profile', {
+          username: user.username,
+          bio: bio
+        })
+      }
     })
   }
 }
 
 function verifyUser(username, password, callback) {
+  console.log('Checking for user: ' + username)
+
+  const sql = "SELECT username, password FROM users WHERE username = $1 AND password = $2"
+
+  const params = [username, password]
+
+  pool.query(sql, params, (err, result) => {
+    if (err) {
+      console.log('Error in query: ')
+      console.log(err)
+      callback(err, null)
+    }
+
+    console.log('Found result!')
+
+    callback(null, result.rows)
+  })
+}
+
+function addUser(username, password, email, callback) {
   console.log('Checking for user: ' + username)
 
   const sql = "SELECT username, password FROM users WHERE username = $1 AND password = $2"
