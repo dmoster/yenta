@@ -9,15 +9,21 @@
 
   <% include ../partials/nav-logged-out.ejs %>
 
-<div class="jumbotron text-center">
   <div class="container">
-    <h1>Find your sparring partner</h1>
-    <p>It's not a romantic thing. You just need somebody who's got your back.</p>
-    <%= username %>
-    <%= bio %>
+    <h1>Profile<br><small>Welcome back, <%= username %></small></h1>
+    <div class="row">
+      <div class="col-md-8">
+        <h2>Bio</h2>
+        <p><%= bio %></p>
+      </div>
+
+      <div class="col-md-4">
+        <h2>Games</h2>
+        [Coming Soon]
+      </div>
+    </div>
     
   </div>
-</div>
 
 </body>
 </html>

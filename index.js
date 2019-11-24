@@ -1,25 +1,3 @@
-// const express = require('express')
-// const path = require('path')
-// const PORT = process.env.PORT || 5000
-
-// express()
-//   .use(express.static(path.join(__dirname, 'public')))
-//   .set('views', path.join(__dirname, 'views'))
-//   .set('view engine', 'ejs')
-//   .get('/', (req, res) => res.render('pages/index'))
-//   .post('/profile', (req, res) => {
-//     const loginType = req.query.loginType
-//     console.log(loginType)
-//     if (loginType == 'login') {
-//       res.render('pages/profile')
-//     }
-//     else if (loginType === 'signup') {
-//       res.render('pages/profile')
-//     }
-//   })
-//   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
-
-
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
@@ -65,8 +43,11 @@ function logIn(req, res) {
     })
   }
   else if (loginType === 'signup') {
+    const email = req.body.email
+
     addUser(username, password, email, (err, result) => {
       if (err || result == null || result.length != 1) {
+        err ? console.log('Error: ' + err) : console.log('Result: ')
         res.status(500).send('There was an error with your login.')
       }
       else {
@@ -84,9 +65,9 @@ function logIn(req, res) {
 function verifyUser(username, password, callback) {
   console.log('Checking for user: ' + username)
 
-  const sql = "SELECT username, password FROM users WHERE username = $1 AND password = $2"
+  const sql = "SELECT username, password, bio FROM users WHERE username = $1"
 
-  const params = [username, password]
+  const params = [username]
 
   pool.query(sql, params, (err, result) => {
     if (err) {
@@ -97,26 +78,32 @@ function verifyUser(username, password, callback) {
 
     console.log('Found result!')
 
-    callback(null, result.rows)
+    const hash = result.rows[0].password
+
+    if (bcrypt.compareSync(password, hash)) {
+      callback(null, result.rows)
+    }
   })
 }
 
 function addUser(username, password, email, callback) {
-  console.log('Checking for user: ' + username)
+  
+  console.log('Adding to database...')
 
-  const sql = "SELECT username, password FROM users WHERE username = $1 AND password = $2"
+  const sql = "INSERT INTO users (username, password, email) VALUES ($1, $2, $3)"
 
-  const params = [username, password]
+  const hash = bcrypt.hashSync(password, saltRounds)
+  const params = [username, hash, email]
 
   pool.query(sql, params, (err, result) => {
     if (err) {
-      console.log('Error in query: ')
+      console.log('Could not add user to database')
       console.log(err)
       callback(err, null)
     }
 
-    console.log('Found result!')
+    console.log('Added successfully!')
 
-    callback(null, result.rows)
+    verifyUser(username, password, callback)
   })
 }
