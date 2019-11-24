@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt')
 const saltRounds = 10
 
 const { Pool } = require('pg')
-const connectionString = process.env.DATABASE_URL
+const connectionString = process.env.DATABASE_URL || '***REMOVED***'
 const pool = new Pool({ connectionString: connectionString })
 
 app.set('port', (process.env.PORT || 5000))

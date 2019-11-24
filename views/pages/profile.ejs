@@ -7,10 +7,11 @@
 
 <body>
 
-  <% include ../partials/nav-logged-out.ejs %>
+  <% include ../partials/nav-logged-in.ejs %>
 
   <div class="container">
-    <h1>Profile<br><small>Welcome back, <%= username %></small></h1>
+    <h1>Profile</h1>
+    <p class="lead">Welcome back, <%= username %></p>
     <div class="row">
       <div class="col-md-8">
         <h2>Bio</h2>
@@ -22,8 +23,9 @@
         [Coming Soon]
       </div>
     </div>
-    
+
   </div>
+  <% include ../partials/logout.ejs %>
 
 </body>
 </html>

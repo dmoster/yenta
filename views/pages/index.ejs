@@ -9,14 +9,24 @@
 
   <% include ../partials/nav-logged-out.ejs %>
 
-<div class="jumbotron text-center">
-  <div class="container">
-    <h1>Find your sparring partner</h1>
-    <p>It's not a romantic thing. You just need somebody who's got your back.</p>
-    <% include ../partials/signup.ejs %>
-    <% include ../partials/login.ejs %>
+  <div class="jumbotron text-center">
+    <div class="container">
+      <h1>Find your sparring partner</h1>
+      <p>It's not a romantic thing. You just need somebody who's got your back.</p>
+  
+<button type="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#signup-modal">
+<i class="fas fa-user-plus"></i> Sign Up
+</button>
+<button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#login-modal">
+<i class="fas fa-sign-in-alt"></i> Log in
+</button>
+    
+    </div>
+
   </div>
-</div>
+
+  <% include ../partials/signup.ejs %>
+  <% include ../partials/login.ejs %>
 
 </body>
 </html>
