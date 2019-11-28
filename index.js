@@ -16,6 +16,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.get('/', (req, res) => res.render('pages/index'))
+app.get('/about', (req, res) => res.render('pages/about'))
 app.post('/profile', logIn)
 
 app.listen(app.get('port'), () => {
