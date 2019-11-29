@@ -18,3 +18,18 @@ function comparePasswords() {
     signupSubmit.disabled = true
   }
 }
+
+
+// Select active nav button
+activateNavLink()
+
+function activateNavLink() {
+  const path = window.location.pathname
+  const navLinks = document.getElementsByClassName('nav-link')
+
+  for (let i = 0; i < navLinks.length; i++) {
+    if (navLinks[i].pathname == path) {
+      navLinks[i].parentElement.classList.add('active')
+    }
+  }
+}
