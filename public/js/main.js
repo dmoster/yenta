@@ -18,3 +18,6 @@ function comparePasswords() {
     signupSubmit.disabled = true
   }
 }
+
+// Select active nav button
+const path = window.location.pathname
