@@ -19,5 +19,27 @@ function comparePasswords() {
   }
 }
 
+
 // Select active nav button
-const path = window.location.pathname
+activateNavLink()
+updateCopyright()
+
+function activateNavLink() {
+  const path = window.location.pathname
+  const navLinks = document.getElementsByClassName('nav-link')
+
+  for (let i = 0; i < navLinks.length; i++) {
+    if (navLinks[i].pathname === path) {
+      navLinks[i].parentElement.classList.add('active')
+    }
+  }
+}
+
+function updateCopyright() {
+  const d = new Date()
+  const year = d.getFullYear()
+
+  if (year !== 2019) {
+    document.getElementById('copyright-current-year').innerText = '-' + year
+  }
+}

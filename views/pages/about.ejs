@@ -12,16 +12,33 @@
   <div class="container">
     <div class="row">
       <div class="col-md-8">
-        <h1>For many of us, games are all about people we meet along the way.</h1>
-        <p class="lead">Finding the right sparring partners, however&#8212;and building a lasting, meaningful team dynamic&#8212;can be tough, to say the least.</p>
-        <p>We've all been there before.</p>
+        <h1>About</h1>
+        <h2>For many of us, games are all about people we meet along the way.</h2>
+        <p class="lead">Finding the right team members, however&#8212;and building a lasting, meaningful team dynamic&#8212;can be tough, to say the least.</p>
+        <% include ../partials/tldr-btn.ejs %>
+        <p>We've all been there before. You've been playing with the same folks for some unreasonable number of hours for months on end. It was really fun at first, but at this point, the drama is starting to become unreasonable.</p>
+        <p>Planned matches are being delayed because the complaining won't stop.</p>
+        <p>Your directions are being ignored during battles because that one guy's erratic personality is bleeding over into game time.</p>
+        <p>You're fed up because, naturally, the friendship you once had is being strained because game time was supposed to be fun. Now a point of anxiety, you find yourself seeking other games, and maybe other friends.</p>
+        <p>The falling-out you hoped wouldn't happen eventually does.</p>
+        <p>Now, those of you who stuck together are down a player, maybe more. That's where we come in.</p>
+        <h2>What is Yenta?</h2>
+        <p><span id="tldr"><a href="/">Yenta</a> is a platform designed to help you find the right people to play your games of choice with in the way you'd like to play them.</span> You pick the games, define a few simple metrics regarding what you're looking for, and we'll match you up.</p>
+        <p>Once you've reviewed a match, you have the option to ignore it, delete it, or send a <a href="https://discordapp.com"><i class="fab fa-discord"></i> Discord</a> chat invite to the person for your first meetup. If all goes well, just mark the successful match on your account and we'll take it out of your queue.</p>
+        <p>We built Yenta because we needed it ourselves. We hope that, with a little bit of help from us, you can find the comrades-in-arms you're looking for.</p>
+
+        <div>
+          <% include ../partials/signup-btn.ejs %>
+          <% include ../partials/login-btn.ejs %>
+        </div>
       </div>
     </div>
 
   </div>
 
-  <% include ../partials/signup.ejs %>
-  <% include ../partials/login.ejs %>
+  <% include ../partials/signup-modal.ejs %>
+  <% include ../partials/login-modal.ejs %>
 
+  <% include ../partials/footer.ejs %>
 </body>
 </html>

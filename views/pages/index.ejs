@@ -11,24 +11,53 @@
 
   <div class="jumbotron text-center">
     <div class="container">
-      <h1>Find your sparring partner</h1>
+      <h1 class="display-4">Find your sparring partner</h1>
       <p>It's not a romantic thing. You just need somebody who's got your back.</p>
-  
-      <div class="col-md-3 col-sm-12 mx-auto">
-<button type="button" class="btn btn-lg btn-success btn-block" data-toggle="modal" data-target="#signup-modal">
-<i class="fas fa-user-plus"></i> Sign Up
-</button>
-<button type="button" class="btn btn-lg btn-primary btn-block" data-toggle="modal" data-target="#login-modal">
-<i class="fas fa-sign-in-alt"></i> Log in
-</button>
-      </div>
-    
-    </div>
 
+      <div class="col-md-3 col-sm-12 mx-auto mt-5">
+        <% include ../partials/signup-btn.ejs %>
+      </div>
+
+    </div>
   </div>
 
-  <% include ../partials/signup.ejs %>
-  <% include ../partials/login.ejs %>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <div class="card text-center border-light">
+          <h3 class="card-img-top display-1"><i class="fas fa-gamepad"></i></h3>
+          <div class="card-body">
+            <h5 class="card-title">Pick a Game</h5>
+            <p class="card-text">Choose from our list of over 120,000 games</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="card text-center border-light">
+          <h3 class="card-img-top display-1"><i class="fas fa-sliders-h"></i></h3>
+          <div class="card-body">
+            <h5 class="card-title">Determine Your Metrics</h5>
+            <p class="card-text">Rate yourself on how you like to play</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="card text-center border-light">
+          <h3 class="card-img-top display-1"><i class="fas fa-user-friends"></i></h3>
+          <div class="card-body">
+            <h5 class="card-title">Find a Match</h5>
+            <p class="card-text">Receive a custom list of other players with similar playing styles</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="text-center">Need a little more info? <a href="/about">Learn more <i class="fas fa-long-arrow-alt-right"></i></a></p>
+  </div>
 
+
+  <% include ../partials/signup-modal.ejs %>
+  <% include ../partials/login-modal.ejs %>
+
+  <% include ../partials/footer.ejs %>
 </body>
 </html>
