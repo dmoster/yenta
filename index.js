@@ -53,7 +53,8 @@ function logIn(req, res) {
       }
       else {
         const user = result[0]
-        const bio = user.bio || 'Please enter a bio'
+        let bio = user.bio || 'Please enter a bio'
+
         res.status(200).render('pages/profile', {
           username: user.username,
           bio: bio

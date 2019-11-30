@@ -9,3 +9,15 @@
 #tldr {
   font-weight: bold;
 }
+
+#bio-div {
+  cursor: pointer;
+}
+
+  #editBtn {
+    display: none;
+    padding: 0 10px;
+  }
+  #editBtn:hover {
+    text-decoration: none;
+  }
