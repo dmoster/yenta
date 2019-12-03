@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt')
 const saltRounds = 10
 
 const { Pool } = require('pg')
+// BEFORE COMMIT: Remove alternate
 const connectionString = process.env.DATABASE_URL
 const pool = new Pool({ connectionString: connectionString })
 
@@ -18,6 +19,7 @@ app.use(bodyParser.json())
 app.get('/', (req, res) => res.render('pages/index'))
 app.get('/about', (req, res) => res.render('pages/about'))
 app.post('/profile', logIn)
+app.post('/updateBio', updateBio)
 
 app.listen(app.get('port'), () => {
   console.log('App running on port', app.get('port'))
@@ -67,7 +69,7 @@ function logIn(req, res) {
 function verifyUser(username, password, callback) {
   console.log('Checking for user: ' + username)
 
-  const sql = "SELECT username, password, bio FROM users WHERE username = $1"
+  const sql = "SELECT username, password, bio, id FROM users WHERE username = $1"
 
   const params = [username]
 
@@ -79,7 +81,6 @@ function verifyUser(username, password, callback) {
     }
 
     console.log('Found result!')
-
     const hash = result.rows[0].password
 
     if (bcrypt.compareSync(password, hash)) {
@@ -89,7 +90,7 @@ function verifyUser(username, password, callback) {
 }
 
 function addUser(username, password, email, callback) {
-  
+
   console.log('Adding to database...')
 
   const sql = "INSERT INTO users (username, password, email) VALUES ($1, $2, $3)"
@@ -107,5 +108,26 @@ function addUser(username, password, email, callback) {
     console.log('Added successfully!')
 
     verifyUser(username, password, callback)
+  })
+}
+
+function updateBio(req, res) {
+  console.log('Updating bio...')
+
+  const sql = "UPDATE users SET bio = $1 WHERE id = 3"
+
+  const params = [req.body.newBio]
+
+  pool.query(sql, params, (err, result) => {
+    if (err) {
+      console.log('Error in query: ')
+      console.log(err)
+      callback(err, null)
+    }
+
+    console.log('Bio updated!')
+
+    res.send(req.body.newBio)
+
   })
 }

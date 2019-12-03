@@ -20,27 +20,6 @@ function comparePasswords() {
 }
 
 
-// Bio Editing
-function showEditBtn() {
-  const editBtn = document.getElementById('editBtn')
-  editBtn.style.display = 'inline-block'
-}
-
-function hideEditBtn() {
-  const editBtn = document.getElementById('editBtn')
-  editBtn.style.display = 'none'
-}
-
-function editBio() {
-  const editBtn = document.getElementById('editBtn')
-  editBtn.click()
-
-  // let currentBio = document.getElementById('currentBio').innerHTML
-  // let editor = document.getElementById('bio-editor')
-  // editor.value = currentBio
-}
-
-
 // Select active nav button
 activateNavLink()
 updateCopyright()
