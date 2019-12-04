@@ -1,12 +1,13 @@
 const express = require('express')
 const app = express()
+const session = require('express-session')
 const bodyParser = require('body-parser')
 const bcrypt = require('bcrypt')
 const saltRounds = 10
 
 const { Pool } = require('pg')
 // BEFORE COMMIT: Remove alternate
-const connectionString = process.env.DATABASE_URL
+const connectionString = process.env.DATABASE_URL || '***REMOVED***'
 const pool = new Pool({ connectionString: connectionString })
 
 app.set('port', (process.env.PORT || 5000))
@@ -15,6 +16,12 @@ app.set('view engine', 'ejs')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
+app.use(session({
+  secret: 'tb&tst-dg&ginw-amwtb-&tmw0',
+  resave: false,
+  saveUninitialized: true
+}))
 
 app.get('/', (req, res) => res.render('pages/index'))
 app.get('/about', (req, res) => res.render('pages/about'))
@@ -130,4 +137,13 @@ function updateBio(req, res) {
     res.send(req.body.newBio)
 
   })
+}
+
+function verifyLogin(req, res, next) {
+  if (req.session.user_id) {
+    next()
+  }
+  else {
+    res.redirect('/')
+  }
 }
