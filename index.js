@@ -7,7 +7,7 @@ const saltRounds = 10
 
 const { Pool } = require('pg')
 // BEFORE COMMIT: Remove alternate
-const connectionString = process.env.DATABASE_URL || '***REMOVED***'
+const connectionString = process.env.DATABASE_URL
 const pool = new Pool({ connectionString: connectionString })
 
 app.set('port', (process.env.PORT || 5000))
