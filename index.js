@@ -22,15 +22,27 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }))
+app.use('/profile', verifyLogin)
+app.use('/logout', verifyLogin)
 
 app.get('/', (req, res) => res.render('pages/index'))
 app.get('/about', (req, res) => res.render('pages/about'))
-app.post('/profile', logIn)
+app.get('/profile', getProfile)
+app.post('/login', logIn)
+app.post('/logout', logOut)
 app.post('/updateBio', updateBio)
 
 app.listen(app.get('port'), () => {
   console.log('App running on port', app.get('port'))
 })
+
+
+function getProfile(req, res) {
+  res.status(200).render('pages/profile', {
+      username: req.session.username,
+      bio: req.session.bio
+    })
+}
 
 function logIn(req, res) {
   const loginType = req.body.loginType
@@ -44,11 +56,11 @@ function logIn(req, res) {
       }
       else {
         const user = result[0]
-        bio = user.bio || 'Please enter a bio'
-        res.status(200).render('pages/profile', {
-          username: user.username,
-          bio: user.bio
-        })
+        req.session.user_id = user.id
+        req.session.username = user.username
+        req.session.bio = user.bio || 'Please enter a bio'
+
+        res.redirect('/profile')
       }
     })
   }
@@ -139,11 +151,18 @@ function updateBio(req, res) {
   })
 }
 
+function logOut(req, res) {
+  console.log('Logging out user', req.session.username)
+  req.session.destroy()
+  res.redirect('/')
+}
+
 function verifyLogin(req, res, next) {
   if (req.session.user_id) {
     next()
   }
   else {
+    console.log('User not logged in!')
     res.redirect('/')
   }
 }

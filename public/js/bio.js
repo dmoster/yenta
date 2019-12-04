@@ -45,9 +45,8 @@ function editBio() {
 
 function saveBio() {
   newBio = document.getElementById('bio-editor').value
-  console.log('New bio: ', newBio)
+  
   $.post('/updateBio', { newBio: newBio }, res => {
-    console.log('Result: ', res.bio)
     displayBio(res)
   })
 }
