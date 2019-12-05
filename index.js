@@ -23,11 +23,13 @@ app.use(session({
   saveUninitialized: true
 }))
 app.use('/profile', verifyLogin)
+app.use('/addGames', verifyLogin)
 app.use('/logout', verifyLogin)
 
 app.get('/', (req, res) => res.render('pages/index'))
 app.get('/about', (req, res) => res.render('pages/about'))
 app.get('/profile', getProfile)
+app.get('/addGames', addGames)
 app.post('/login', logIn)
 app.post('/logout', logOut)
 app.post('/updateBio', updateBio)
@@ -44,43 +46,43 @@ function getProfile(req, res) {
     })
 }
 
+function addGames(req, res) {
+  res.status(200).render('pages/addGames', {
+
+  })
+}
+
+function setSession(err, result, req, res) {
+  if (err || result == null || result.length != 1) {
+    res.status(500).send('There was an error with your login.')
+  }
+  else {
+    user = result[0]
+
+    req.session.user_id = user.id
+    req.session.username = user.username
+    req.session.bio = user.bio || 'Please <strong>click</strong> or <strong>double-tap</strong> here to enter a bio'
+
+    res.redirect('/profile')
+  }
+}
+
 function logIn(req, res) {
   const loginType = req.body.loginType
   const username = req.body.username
   const password = req.body.password
+  let user
 
   if (loginType === 'login') {
     verifyUser(username, password, (err, result) => {
-      if (err || result == null || result.length != 1) {
-        res.status(500).send('There was an error with your login.')
-      }
-      else {
-        const user = result[0]
-        req.session.user_id = user.id
-        req.session.username = user.username
-        req.session.bio = user.bio || 'Please enter a bio'
-
-        res.redirect('/profile')
-      }
+      setSession(err, result, req, res)
     })
   }
   else if (loginType === 'signup') {
     const email = req.body.email
 
     addUser(username, password, email, (err, result) => {
-      if (err || result == null || result.length != 1) {
-        err ? console.log('Error: ' + err) : console.log('Result: ')
-        res.status(500).send('There was an error with your login.')
-      }
-      else {
-        const user = result[0]
-        let bio = user.bio || 'Please enter a bio'
-
-        res.status(200).render('pages/profile', {
-          username: user.username,
-          bio: bio
-        })
-      }
+      setSession(err, result, req, res)
     })
   }
 }
@@ -133,9 +135,9 @@ function addUser(username, password, email, callback) {
 function updateBio(req, res) {
   console.log('Updating bio...')
 
-  const sql = "UPDATE users SET bio = $1 WHERE id = 3"
+  const sql = "UPDATE users SET bio = $1 WHERE id = $2"
 
-  const params = [req.body.newBio]
+  const params = [req.body.newBio, req.session.user_id]
 
   pool.query(sql, params, (err, result) => {
     if (err) {
@@ -147,7 +149,6 @@ function updateBio(req, res) {
     console.log('Bio updated!')
 
     res.send(req.body.newBio)
-
   })
 }
 
