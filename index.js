@@ -47,7 +47,7 @@ function getProfile(req, res) {
 }
 
 function addGames(req, res) {
-  res.status(200).render('pages/addGames', {
+  res.status(200).render('pages/add-games', {
 
   })
 }
@@ -102,7 +102,6 @@ function verifyUser(username, password, callback) {
     }
 
     console.log('Found result!')
-    
     const hash = result.rows[0].password
 
     if (bcrypt.compareSync(password, hash)) {
