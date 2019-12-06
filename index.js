@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.use(session({
-  secret: 'tb&tst-dg&ginw-amwtb-&tmw0',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true
 }))
@@ -102,6 +102,7 @@ function verifyUser(username, password, callback) {
     }
 
     console.log('Found result!')
+    
     const hash = result.rows[0].password
 
     if (bcrypt.compareSync(password, hash)) {
