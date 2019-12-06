@@ -23,13 +23,15 @@ app.use(session({
   saveUninitialized: true
 }))
 app.use('/profile', verifyLogin)
-app.use('/addGames', verifyLogin)
+app.use('/games', verifyLogin)
+app.use('/addGame', verifyLogin)
 app.use('/logout', verifyLogin)
 
 app.get('/', (req, res) => res.render('pages/index'))
 app.get('/about', (req, res) => res.render('pages/about'))
 app.get('/profile', getProfile)
-app.get('/addGames', displayGames)
+app.get('/games', displayGames)
+app.post('/addgame', addGame)
 app.post('/login', logIn)
 app.post('/logout', logOut)
 app.post('/updateBio', updateBio)
@@ -167,12 +169,47 @@ function updateBio(req, res) {
     if (err) {
       console.log('Error in query: ')
       console.log(err)
-      callback(err, null)
+
+      res.send({ success: false })
+    }
+    else {
+      console.log('Bio updated!')
+
+      res.send(req.body.newBio)
     }
 
-    console.log('Bio updated!')
+  })
+}
 
-    res.send(req.body.newBio)
+function addGame(req, res) {
+  console.log('Adding game...')
+  console.log(req.body.game_id)
+
+  const sql = "INSERT INTO user_metrics (user_id, game_id, casual_competitive, short_long, partner_team, strategic_gunblazer, learn_lead, comment) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)"
+
+  const params = [
+    req.session.user_id,
+    req.body.game_id,
+    req.body.casual_competitive,
+    req.body.short_long,
+    req.body.partner_team,
+    req.body.strategic_gunblazer,
+    req.body.learn_lead,
+    req.body.comment
+  ]
+
+  pool.query(sql, params, (err, result) => {
+    if (err) {
+      console.log('Error in query: ')
+      console.log(err)
+
+      res.send({ success: false })
+    }
+    else {
+      console.log('Game added!')
+
+      res.send({ success: true })
+    }
   })
 }
 

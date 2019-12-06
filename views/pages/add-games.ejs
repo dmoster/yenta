@@ -27,7 +27,8 @@
                       <h3 class="card-title"><%= game.name %></h3>
                       <p class="card-text"><%= game.description %></p>
                       <p class="card-text"><small class="text-muted"><%= game.platform %></small></p>
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-game-modal<%= game.id %>">Add</button>
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-game-modal<%= game.id %>" id="gameAdder<%= game.id %>">Add</button>
+                      <p class="card-text"><small id="resMsg<%= game.id %>"></small></p>
                     </div>
                   </div>
                 </div>

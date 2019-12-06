@@ -18,5 +18,19 @@ function addGame(id) {
     comment: comment
   }
 
-  console.log(gameMetrics)
+  $.post('/addGame', gameMetrics, res => {
+    var resMsg = $(`#resMsg${id}`)
+
+    if (res.success) {
+      var gameAdderBtn = $(`#gameAdder${id}`)
+      gameAdderBtn.disabled = true
+      gameAdderBtn.text('Added')
+      resMsg.addClass('text-success')
+      resMsg.text('Game added successfully!')
+    }
+    else {
+      resMsg.addClass('text-danger')
+      resMsg.text('Game was not added. Please try again later.')
+    }
+  })
 }
