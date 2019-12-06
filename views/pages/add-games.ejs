@@ -16,7 +16,73 @@
       <div id="add-game-div" class="col-md-8">
         <h2>Popular Titles</h2>
         <div id="gameList">
+            <% games.forEach(game => { %>
+              <div class="card mb-3">
+                <div class="row no-gutters">
+                  <div class="col-md-3">
+                    <img src="<%= game.img %>" class="card-img" alt="Box art for <%= game.name %>">
+                  </div>
+                  <div class="col-md-9">
+                    <div class="card-body">
+                      <h3 class="card-title"><%= game.name %></h3>
+                      <p class="card-text"><%= game.description %></p>
+                      <p class="card-text"><small class="text-muted"><%= game.platform %></small></p>
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-game-modal<%= game.id %>">Add</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
+              <div class="modal fade" id="add-game-modal<%= game.id %>" tabindex="-1" role="dialog" aria-labelledby="login" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title" id="add-game-title<%= game.id %>"><%= game.name %></h2>
+                      <p><small class="text-muted"><%= game.platform %></small></p>
+                    </div>
+                    <div class="modal-body">
+                      <p><%= game.description %></p>
+
+                      <form>
+                        <div class="form-group">
+                          <label for="casual_competitive<%= game.id %>">Is this for fun, or for real?</label>
+                          <input type="range" class="custom-range" id="casual_competitive<%= game.id %>" max="10">
+                          <small class="form-text text-muted d-flex justify-content-between"><span>Casual</span><span>Competitive</span></small>
+                        </div>
+                        <div class="form-group">
+                          <label for="short_long<%= game.id %>">Are you hoping for a short-term gig, or a commitment?</label>
+                          <input type="range" class="custom-range" id="short_long<%= game.id %>" max="10">
+                          <small class="form-text text-muted d-flex justify-content-between"><span>Short-Term</span><span>Long-Term</span></small>
+                        </div>
+                        <div class="form-group">
+                          <label for="partner_team<%= game.id %>">Looking for a partner, or a team?</label>
+                          <input type="range" class="custom-range" id="partner_team<%= game.id %>" max="10">
+                          <small class="form-text text-muted d-flex justify-content-between"><span>Partner</span><span>Team</span></small>
+                        </div>
+                        <div class="form-group">
+                          <label for="strategic_gunblazer<%= game.id %>">Do you like strategize, or do you jump in, guns blazing?</label>
+                          <input type="range" class="custom-range" id="strategic_gunblazer<%= game.id %>" max="10">
+                          <small class="form-text text-muted d-flex justify-content-between"><span>Strategic</span><span>Gunblazer</span></small>
+                        </div>
+                        <div class="form-group">
+                          <label for="learn_lead<%= game.id %>">Which role do you prefer to take?</label>
+                          <input type="range" class="custom-range" id="learn_lead<%= game.id %>" max="10">
+                          <small class="form-text text-muted d-flex justify-content-between"><span>Learner</span><span>Leader</span></small>
+                        </div>
+                        <div class="form-group">
+                          <label for="comment<%= game.id %>">Any additional thoughts?</label>
+                          <textarea class="form-control" id="comment<%= game.id %>" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                          <button type="button" class="btn btn-primary" name="addgame" id="addGame<%= game.id %>" value="addGame" data-dismiss="modal" onclick="addGame(<%= game.id %>)">Add</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% }); %>
         </div>
       </div>
 
@@ -27,27 +93,10 @@
     </div>
 
   </div>
+
   <% include ../partials/logout-modal.ejs %>
-
-  <div class="modal fade" id="add-game-modal" tabindex="-1" role="dialog" aria-labelledby="login" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 class="modal-title" id="add-game-title">Add Game</h2>
-        </div>
-        <div class="modal-body">
-          <form>
-            <!-- add metric sliders here -->
-            <div class="form-group">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-primary" name="addgame" id="addGame" value="addGame" data-dismiss="modal">Add</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <% include ../partials/footer.ejs %>
+
+  <script src="/js/games.js"></script>
 </body>
 </html>
