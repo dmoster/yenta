@@ -42,10 +42,73 @@ app.listen(app.get('port'), () => {
 
 
 function getProfile(req, res) {
-  res.status(200).render('pages/profile', {
+  getUserGames(req, res, (err, result) => {
+    if (err || result == null || result.length < 1) {
+      result = []
+    }
+    res.status(200).render('pages/profile', {
       username: req.session.username,
-      bio: req.session.bio
+      bio: req.session.bio,
+      games: result
     })
+  })
+  
+}
+
+function getUserGames(req, res, callback) {
+  console.log('Getting user game list...')
+
+  const sql = "SELECT games.id, games.title FROM games INNER JOIN user_metrics ON games.id = user_metrics.game_id WHERE user_metrics.user_id = $1"
+
+  const params = [req.session.user_id]
+
+  pool.query(sql, params, (err, res) => {
+    if (err) {
+      console.log('Error in query: ')
+      console.log(err)
+      callback(err, null)
+    }
+
+    console.log('Sending list to profile...')
+    
+    getMatches(req, res, (err, result) => {
+      if (err || result == null || result.length < 1) {
+        result = []
+      }
+      callback(null, res.rows)
+    })
+  })
+}
+
+function getMatches(req, res, callback) {
+  console.log('Getting matches...')
+  
+  const sql = "SELECT matches.game_id, users.match_id, users.username, users.discord_username FROM users INNER JOIN matches ON users.match_id = matches.match_id WHERE matches.user_id = $1"
+  
+  const params = [req.session.user_id]
+  
+  pool.query(sql, params, (err, result) => {
+    if (err) {
+      console.log('No matches found')
+      console.log(err)
+      callback(null, res.rows)
+    }
+    else {
+      console.log('Matches found!')
+      
+      res.rows.forEach(game => {
+        result.rows.forEach(match => {
+          if (game.id === match.game_id) {
+            if (game.matches === undefined) {
+              game.matches = []
+            }
+            game.matches.push(match)
+          }
+        })
+      })
+      callback(null, res.rows)
+    }
+  })
 }
 
 function displayGames(req, res) {
@@ -161,9 +224,9 @@ function addUser(username, password, email, callback) {
 function updateBio(req, res) {
   console.log('Updating bio...')
 
-  const sql = "UPDATE users SET bio = $1 WHERE id = $2"
+  const sql = "UPDATE users SET bio = $2 WHERE id = $1"
 
-  const params = [req.body.newBio, req.session.user_id]
+  const params = [req.session.user_id, req.body.newBio]
 
   pool.query(sql, params, (err, result) => {
     if (err) {

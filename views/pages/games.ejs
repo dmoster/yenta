@@ -20,11 +20,11 @@
               <div class="card mb-3">
                 <div class="row no-gutters">
                   <div class="col-md-3">
-                    <img src="/images/boxart/<%= game.img %>" class="card-img" alt="Box art for <%= game.name %>">
+                    <img src="/images/boxart/<%= game.img %>" class="card-img" alt="Box art for <%= game.title %>">
                   </div>
                   <div class="col-md-9">
                     <div class="card-body">
-                      <h3 class="card-title"><%= game.name %></h3>
+                      <h3 class="card-title"><%= game.title %></h3>
                       <p class="card-text"><%= game.description.substring(0, 90) %>...</p>
                       <p class="card-text"><small class="text-muted"><%= game.platform %></small></p>
                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-game-modal<%= game.id %>" id="gameAdder<%= game.id %>">Add</button>
@@ -38,7 +38,7 @@
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h4 class="modal-title" id="add-game-title<%= game.id %>"><%= game.name %></h2>
+                      <h4 class="modal-title" id="add-game-title<%= game.id %>"><%= game.title %></h2>
                       <p><small class="text-muted"><%= game.platform %></small></p>
                     </div>
                     <div class="modal-body">
@@ -83,7 +83,7 @@
                   </div>
                 </div>
               </div>
-            <% }); %>
+            <% }) %>
         </div>
       </div>
 
