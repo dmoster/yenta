@@ -54,7 +54,7 @@ function displayGames(req, res) {
       res.status(500).send('Something went wrong retrieving the games. Please try again later.')
     }
     else {
-      res.status(200).render('pages/add-games', {
+      res.status(200).render('pages/games', {
         games: result
       })
     }

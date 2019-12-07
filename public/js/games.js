@@ -23,7 +23,7 @@ function addGame(id) {
 
     if (res.success) {
       var gameAdderBtn = $(`#gameAdder${id}`)
-      gameAdderBtn.disabled = true
+      gameAdderBtn.prop('disabled', true)
       gameAdderBtn.text('Added')
       resMsg.addClass('text-success')
       resMsg.text('Game added successfully!')
