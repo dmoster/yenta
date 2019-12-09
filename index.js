@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.use(session({
-  secret: 'tb&tst-dg&gitw', // process.env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true
 }))
