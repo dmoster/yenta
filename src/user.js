@@ -100,6 +100,30 @@ const addGame = (req, res) => {
 }
 
 
+const removeGame = (req, res) => {
+  console.log('Removing game...')
+
+  const sql = "DELETE FROM matches WHERE  (user_id = $1 OR match_id = $1) AND game_id = $2"
+
+  const params = [req.session.user_id, req.body.id]
+
+  pool.query(sql, params, (err, result) => {
+    if (err) {
+      console.log('Error in query: ')
+      console.log(err)
+
+      res.send({ success: false })
+    }
+    else {
+      console.log('Game removed!')
+
+      res.send({ success: true })
+    }
+  })
+}
+
+
 exports.getProfile = getProfile
 exports.updateBio = updateBio
 exports.addGame = addGame
+exports.removeGame = removeGame
