@@ -34,3 +34,25 @@ function addGame(id) {
     }
   })
 }
+
+
+function removeGame(id) {
+  var gameRemovalBtn = $(`#gameRemover${id}`)
+  var gameCard = $(`#gameCard${id}`)
+
+  var gameInfo = { game_id: id }
+
+  $.post('/removeGame', gameInfo, res => {
+    var resMsg = $(`#resMsg${id}`)
+
+    if (res.success) {
+      gameCard.fadeOut(() => { gameCard.remove() })
+    }
+    else {
+      var resMsg = $(`#resMsg${id}`)
+      resMsg.text('Cannot remove game at this time.')
+    }
+  })
+
+
+}

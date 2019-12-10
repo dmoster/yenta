@@ -21,3 +21,7 @@
   #editBtn:hover {
     text-decoration: none;
   }
+
+#gamesAccordion .list-group-item {
+  border: none;
+}
