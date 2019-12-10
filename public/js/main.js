@@ -22,7 +22,6 @@ function comparePasswords() {
 
 // Select active nav button
 activateNavLink()
-updateCopyright()
 
 function activateNavLink() {
   const path = window.location.pathname
@@ -34,6 +33,10 @@ function activateNavLink() {
     }
   }
 }
+
+
+// Update the copyright
+updateCopyright()
 
 function updateCopyright() {
   const d = new Date()

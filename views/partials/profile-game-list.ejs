@@ -1,0 +1,38 @@
+<h2>Games</h2>
+<% if (games.length > 0) { %>
+  <div class="accordion" id="gamesAccordion">
+    <% games.forEach(game => { %>
+      <div class="card" id="gameCard<%= game.id %>">
+        <button type="button" data-toggle="collapse" data-target="#game<%= game.id %>" aria-expanded="false" aria-controls="game<%= game.id %>" class="card-header list-group-item list-group-item-action">
+          <div class="d-flex justify-content-between align-items-center">
+            <small><%= game.title %></small>
+            <% if (game.matches && game.matches.length > 0) { %>
+              <span class="badge badge-pill badge-success"><%= game.matches.length %></span>
+            <% } else { %>
+              <span class="badge badge-pill badge-danger">0</span>
+            <% } %>
+          </div>
+        </button>
+
+        <div id="game<%= game.id %>" class="collapse" data-parent="#gamesAccordion">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-5">
+                <button type="button" class="btn btn-danger btn-sm btn-block" onclick="removeGame(<%= game.id %>)" id="gameRemover<%= game.id %>"><i class="fas fa-trash"></i> Remove</button>
+              </div>
+              <% if (game.matches && game.matches.length > 0) { %>
+                <div class="col-7">
+                  <a role="button" class="btn btn-success btn-sm btn-block" href="/matches?game_id=<%= game.id %>"><i class="fas fa-user-friends"></i> View Matches</a>
+                </div>
+              <% } %>
+            </div>
+            <small class="text-danger" id="#resMsg<%= game.id %>"></small>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+<% } else { %>
+    <p>No games added yet.</p>
+<% } %>
+<a href="/games" class="btn btn-primary mt-3">Add</a>

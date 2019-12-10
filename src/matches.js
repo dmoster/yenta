@@ -1,10 +1,23 @@
 const { pool } = require('./db')
+const user = require('./user')
+
+
+const showAll = (req, res) => {
+  user.getUserGames(req, res, (err, result) => {
+    if (err || result == null || result.length < 1) {
+      result = []
+    }
+    res.status(200).render('pages/matches', {
+      games: result
+    })
+  })
+}
 
 
 const getMatches = (req, res, callback) => {
   console.log('Getting matches...')
 
-  const sql = "SELECT matches.game_id, users.match_id, users.username, users.discord_username FROM users INNER JOIN matches ON users.match_id = matches.match_id WHERE matches.user_id = $1 OR matches.match_id = $1"
+  const sql = "SELECT * FROM users INNER JOIN matches ON users.match_id = matches.match_id WHERE matches.user_id = $1 OR matches.match_id = $1"
 
   const params = [req.session.user_id]
 
@@ -109,3 +122,4 @@ const updateMatches = (req) => {
 
 exports.getMatches = getMatches
 exports.updateMatches = updateMatches
+exports.showAll = showAll

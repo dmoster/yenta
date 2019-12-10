@@ -41,7 +41,7 @@ const updateBio = (req, res) => {
 }
 
 
-function getUserGames(req, res, callback) {
+const getUserGames = (req, res, callback) => {
   console.log('Getting user game list...')
 
   const sql = "SELECT games.id, games.title FROM games INNER JOIN user_metrics ON games.id = user_metrics.game_id WHERE user_metrics.user_id = $1"
@@ -121,12 +121,12 @@ const removeGame = (req, res) => {
         if (err) {
           console.log('Error in query: ')
           console.log(err)
-    
+
           res.send({ success: false })
         }
         else {
           console.log('Game removed!')
-    
+
           res.send({ success: true })
         }
       })
@@ -139,3 +139,4 @@ exports.getProfile = getProfile
 exports.updateBio = updateBio
 exports.addGame = addGame
 exports.removeGame = removeGame
+exports.getUserGames = getUserGames
