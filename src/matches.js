@@ -17,7 +17,7 @@ const showAll = (req, res) => {
 const getMatches = (req, res, callback) => {
   console.log('Getting matches...')
 
-  const sql = "SELECT * FROM users INNER JOIN matches ON users.match_id = matches.match_id WHERE matches.user_id = $1 OR matches.match_id = $1"
+  const sql = "SELECT username, discord_username, users.id, game_id, match_level FROM users INNER JOIN matches ON users.match_id = matches.match_id WHERE (matches.user_id = $1 OR matches.match_id = $1) AND NOT users.id = $1 UNION SELECT username, discord_username, users.id, game_id, match_level FROM users INNER JOIN matches ON users.match_id = matches.user_id WHERE (matches.user_id = $1 OR matches.match_id = $1) AND NOT users.id = $1"
 
   const params = [req.session.user_id]
 
