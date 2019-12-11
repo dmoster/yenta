@@ -69,39 +69,24 @@ const updateMatches = (req) => {
       console.log(err)
     }
     else {
-      console.log('Matches found!')
+      console.log('Comparing metrics...')
 
       result.rows.forEach(potentialMatch => {
         if (potentialMatch.user_id !== user_id) {
-          let matchRating = 0
+          let matchLevel = 0
 
-          if (potentialMatch.casual_competitive >= metrics.casual_competitive - 1 &&
-              potentialMatch.casual_competitive <= metrics.casual_competitive + 1) {
-            ++matchRating
-          }
-          if (potentialMatch.short_long >= metrics.short_long - 1 &&
-              potentialMatch.short_long <= metrics.short_long + 1) {
-            ++matchRating
-          }
-          if (potentialMatch.partner_team >= metrics.partner_team - 1 &&
-              potentialMatch.partner_team <= metrics.partner_team + 1) {
-            ++matchRating
-          }
-          if (potentialMatch.strategic_gunblazer >= metrics.strategic_gunblazer - 1 &&
-              potentialMatch.strategic_gunblazer <= metrics.strategic_gunblazer + 1) {
-            ++matchRating
-          }
-          if (potentialMatch.learn_lead >= metrics.learn_lead - 1 &&
-              potentialMatch.learn_lead <= metrics.learn_lead + 1) {
-            ++matchRating
-          }
+          matchLevel += 20 - (2 * (Math.max(potentialMatch.casual_competitive,metrics.casual_competitive) - Math.min(potentialMatch.casual_competitive,metrics.casual_competitive)))
+          matchLevel += 20 - (2 * (Math.max(potentialMatch.short_long, metrics.short_long) - Math.min(potentialMatch.short_long, metrics.short_long)))
+          matchLevel += 20 - (2 * (Math.max(potentialMatch.partner_team, metrics.partner_team) - Math.min(potentialMatch.partner_team, metrics.partner_team)))
+          matchLevel += 20 - (2 * (Math.max(potentialMatch.strategic_gunblazer, metrics.strategic_gunblazer) - Math.min(potentialMatch.strategic_gunblazer, metrics.strategic_gunblazer)))
+          matchLevel += 20 - (2 * (Math.max(potentialMatch.learn_lead, metrics.learn_lead) - Math.min(potentialMatch.learn_lead, metrics.learn_lead)))
 
-          if (matchRating >= 4) {
+          if (matchLevel >= 75) {
             console.log('Adding match...')
 
-            const sql = "INSERT INTO matches (user_id, match_id, game_id) VALUES ($1, $2, $3)"
+            const sql = "INSERT INTO matches (user_id, match_id, game_id, match_level) VALUES ($1, $2, $3, $4)"
 
-            const newParams = [user_id, potentialMatch.user_id, metrics.game_id]
+            const newParams = [user_id, potentialMatch.user_id, metrics.game_id, matchLevel]
 
             pool.query(sql, newParams, (err, res) => {
               if (err || res.length < 1) {

@@ -34,6 +34,26 @@
             <% games.forEach(game => { %>
               <div class="tab-pane fade" id="game-<%= game.id %>" role="tabpanel">
                 <h2><%= game.title %></h2>
+                <% if (game.matches && game.matches.length > 0) { %>
+                  <div class="list-group" id="list-tab" role="tablist">
+                    <% game.matches.forEach(match => { %>
+                      <a class="list-group-item list-group-item-action" data-toggle="list" href="#" role="tab" id="">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <span><%= match.username %></span>
+                          <% if (match.match_level > 90) { %>
+                            <span class="badge badge-pill badge-success"><%= match.match_level %>%</span>
+                          <% } else if (match.match_level > 80) { %>
+                            <span class="badge badge-pill badge-warning"><%= match.match_level %>%</span>
+                          <% } else { %>
+                            <span class="badge badge-pill badge-danger"><%= match.match_level %>%</span>
+                          <% } %>
+                        </div>
+                      </a>
+                    <% }) %>
+                  </div>
+                <% } else { %>
+                  <p class="display-4">No matches found :(</p>
+                <% } %>
               </div>
             <% }) %>
           </div>

@@ -51,7 +51,7 @@ function addUser(username, password, email, callback) {
 function verifyUser(username, password, callback) {
   console.log('Checking for user: ' + username)
 
-  const sql = "SELECT username, password, bio, id FROM users WHERE username = $1"
+  const sql = "SELECT id, username, password, bio, role FROM users WHERE username = $1"
 
   const params = [username]
 
@@ -82,6 +82,7 @@ function setSession(err, result, req, res) {
     req.session.user_id = user.id
     req.session.username = user.username
     req.session.bio = user.bio || 'Please <strong>click</strong> or <strong>double-tap</strong> here to enter a bio'
+    req.session.user_role = user.role
 
     res.redirect('/profile')
   }
