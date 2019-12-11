@@ -17,3 +17,22 @@ function selectGame() {
 function getQueryParams(str) {
   return (str || document.location.search).replace(/(^\?)/,'').split("&").map(function(n){return n = n.split("="),this[n[0]] = n[1],this}.bind({}))[0];
 }
+
+
+function getMetrics(match_id, game_id) {
+
+  var matchInfo = {
+    match_id: match_id,
+    game_id: game_id
+  }
+
+  $.post('/getMetrics', matchInfo, res => {
+
+    if (res.success) {
+      console.log(res)
+    }
+    else {
+      console.log(res.message)
+    }
+  })
+}

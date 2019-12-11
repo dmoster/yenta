@@ -17,7 +17,7 @@ const showAll = (req, res) => {
 const getMatches = (req, res, callback) => {
   console.log('Getting matches...')
 
-  const sql = "SELECT username, discord_username, users.id, game_id, match_level FROM users INNER JOIN matches ON users.match_id = matches.match_id WHERE (matches.user_id = $1 OR matches.match_id = $1) AND NOT users.id = $1 UNION SELECT username, discord_username, users.id, game_id, match_level FROM users INNER JOIN matches ON users.match_id = matches.user_id WHERE (matches.user_id = $1 OR matches.match_id = $1) AND NOT users.id = $1"
+  const sql = "SELECT username, discord_username, users.id, game_id, match_level FROM users INNER JOIN matches ON users.match_id = matches.match_id WHERE (matches.user_id = $1 OR matches.match_id = $1) AND NOT users.id = $1 UNION SELECT username, discord_username, users.id, game_id, match_level FROM users INNER JOIN matches ON users.match_id = matches.user_id WHERE (matches.user_id = $1 OR matches.match_id = $1) AND NOT users.id = $1 ORDER BY match_level DESC LIMIT 15"
 
   const params = [req.session.user_id]
 
@@ -40,6 +40,7 @@ const getMatches = (req, res, callback) => {
           }
         })
       })
+
       callback(null, res.rows)
     }
   })
@@ -105,6 +106,36 @@ const updateMatches = (req) => {
 }
 
 
+const getMetrics = (req, res) => {
+  console.log('Obtaining metrics...')
+
+  const sql = "SELECT user_metrics.user_id, casual_competitive, short_long, partner_team, strategic_gunblazer, learn_lead FROM user_metrics INNER JOIN matches ON user_metrics.game_id = matches.game_id WHERE (user_metrics.user_id = $1 OR user_metrics.user_id = $2) AND user_metrics.game_id = $3"
+
+  const params = [req.session.user_id, req.body.match_id, req.body.game_id]
+
+  pool.query(sql, params, (err, result) => {
+    if (err) {
+      let errMsg = 'Something went wrong grabbing the metrics :('
+      console.log(errMsg)
+      console.log(err)
+      res.send({
+        success: false,
+        message: errMsg
+      })
+    }
+    else {
+      console.log('Metrics acquired!')
+
+      res.send({
+        success: true,
+        user_metrics: result.rows
+      })
+    }
+  })
+}
+
+
 exports.getMatches = getMatches
 exports.updateMatches = updateMatches
 exports.showAll = showAll
+exports.getMetrics = getMetrics

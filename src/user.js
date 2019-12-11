@@ -44,7 +44,7 @@ const updateBio = (req, res) => {
 const getUserGames = (req, res, callback) => {
   console.log('Getting user game list...')
 
-  const sql = "SELECT games.id, games.title FROM games INNER JOIN user_metrics ON games.id = user_metrics.game_id WHERE user_metrics.user_id = $1"
+  const sql = "SELECT games.id, games.title FROM games INNER JOIN user_metrics ON games.id = user_metrics.game_id WHERE user_metrics.user_id = $1 ORDER BY games.title"
 
   const params = [req.session.user_id]
 
@@ -61,6 +61,7 @@ const getUserGames = (req, res, callback) => {
       if (err || result == null || result.length < 1) {
         result = []
       }
+
       callback(null, res.rows)
     })
   })

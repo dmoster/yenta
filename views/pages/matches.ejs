@@ -37,7 +37,7 @@
                 <% if (game.matches && game.matches.length > 0) { %>
                   <div class="list-group" id="list-tab" role="tablist">
                     <% game.matches.forEach(match => { %>
-                      <a class="list-group-item list-group-item-action" data-toggle="list" href="#" role="tab" id="">
+                      <a class="list-group-item list-group-item-action" data-toggle="list" href="#" role="tab" id="" onclick="getMetrics(<%= match.id %>, <%= game.id %>)">
                         <div class="d-flex justify-content-between align-items-center">
                           <span><%= match.username %></span>
                           <% if (match.match_level > 90) { %>
