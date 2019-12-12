@@ -29,6 +29,8 @@ function getMetrics(match_id, game_id) {
   $.post('/getMetrics', matchInfo, res => {
 
     if (res.success) {
+      $(`#user-metrics-${<%= game.id %>}`).text() += JSON.stringify(res)
+    
       console.log(res)
     }
     else {

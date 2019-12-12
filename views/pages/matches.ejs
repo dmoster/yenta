@@ -14,7 +14,7 @@
     <div class="row">
       <% if (games.length > 0) { %>
         <div class="col-md-3 mb-3">
-          <div class="list-group" id="list-tab" role="tablist">
+          <div class="list-group" id="list-tab-<%= game.id %>" role="tablist">
             <% games.forEach(game => { %>
               <a class="list-group-item list-group-item-action" data-toggle="list" href="#game-<%= game.id %>" role="tab" id="gameSelector<%= game.id %>">
                 <div class="d-flex justify-content-between align-items-center">
@@ -34,11 +34,12 @@
             <% games.forEach(game => { %>
               <div class="tab-pane fade" id="game-<%= game.id %>" role="tabpanel">
                 <h2><%= game.title %></h2>
+                 <div id="user-metrics-<%= game.id %>"></div>
                 <% if (game.matches && game.matches.length > 0) { %>
-                  <div class="list-group" id="list-tab" role="tablist">
+                  <div class="list-group" id="list-tab-<%= game.matches.id %>" role="tablist">
                     <% game.matches.forEach(match => { %>
-                      <a class="list-group-item list-group-item-action" data-toggle="list" href="#" role="tab" id="" onclick="getMetrics(<%= match.id %>, <%= game.id %>)">
-                        <div class="d-flex justify-content-between align-items-center">
+                      <a class="list-group-item list-group-item-action" data-toggle="list" href="#" role="tab" id="">
+                        <div class="d-flex justify-content-between align-items-center" onload="getMetrics(<%= match.id %>, <%= game.id %>)">
                           <span><%= match.username %></span>
                           <% if (match.match_level > 90) { %>
                             <span class="badge badge-pill badge-success"><%= match.match_level %>%</span>
