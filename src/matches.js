@@ -117,7 +117,7 @@ const getMetrics = (req, res) => {
     person_id = req.session.user_id
   }
 
-  const sql = "SELECT DISTINCT user_metrics.user_id, casual_competitive, short_long, partner_team, strategic_gunblazer, learn_lead, comment FROM user_metrics INNER JOIN matches ON user_metrics.game_id = matches.game_id WHERE user_metrics.user_id = $1 AND user_metrics.game_id = $2"
+  const sql = "SELECT DISTINCT user_metrics.user_id, casual_competitive, short_long, partner_team, strategic_gunblazer, learn_lead, comment FROM user_metrics INNER JOIN matches ON user_metrics.game_id = matches.game_id WHERE user_metrics.user_id = $1 AND user_metrics.game_id = $2 LIMIT 1"
 
   const params = [person_id, req.body.game_id]
 
@@ -136,7 +136,7 @@ const getMetrics = (req, res) => {
 
       res.send({
         success: true,
-        user_metrics: result.rows
+        user_metrics: result.rows[0]
       })
     }
   })

@@ -25,3 +25,15 @@
 #gamesAccordion .list-group-item {
   border: none;
 }
+
+.list-group-item.match-group-item.active {
+  background-color: slateblue !important;
+  border-color: slateblue !important;
+}
+
+.user-range::-webkit-slider-thumb { background: dodgerblue; }
+.user-range:disabled::-moz-range-thumb { background: dodgerblue; }
+.user-range::-ms-thumb { background: dodgerblue; }
+.match-range::-webkit-slider-thumb { background: slateblue; }
+.match-range:disabled::-moz-range-thumb { background: slateblue; }
+.match-range::-ms-thumb { background: slateblue; }

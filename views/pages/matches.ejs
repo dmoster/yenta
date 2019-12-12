@@ -16,29 +16,28 @@
         <div class="col-md-3 mb-3">
           <div class="list-group" id="" role="tablist">
             <% games.forEach(game => { %>
-              <a class="list-group-item list-group-item-action" data-toggle="list" href="#game-<%= game.id %>" role="tab" id="gameSelector<%= game.id %>" onclick="getUserMetrics(<%= game.id %>)">
-                <div class="d-flex justify-content-between align-items-center">
-                  <small><%= game.title %></small>
-                  <% if (game.matches && game.matches.length > 0) { %>
+              <% if (game.matches && game.matches.length > 0) { %>
+                <a class="list-group-item list-group-item-action" data-toggle="list" href="#game-<%= game.id %>" role="tab" id="gameSelector<%= game.id %>" onclick="getUserMetrics(<%= game.id %>)">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <small><%= game.title %></small>
                     <span class="badge badge-pill badge-success"><%= game.matches.length %></span>
-                  <% } else { %>
-                    <span class="badge badge-pill badge-danger">0</span>
-                  <% } %>
-                </div>
-              </a>
+                  </div>
+                </a>
+              <% } %>
             <% }) %>
           </div>
+
+
         </div>
         <div class="col-md-9">
           <div class="tab-content" id="nav-tabContent">
             <% games.forEach(game => { %>
-              <div class="tab-pane fade" id="game-<%= game.id %>" role="tabpanel">
-                <h2><%= game.title %></h2>
-                 <div id="user-metrics-<%= game.id %>"></div>
-                <% if (game.matches && game.matches.length > 0) { %>
-                  <div class="list-group" id="list-tab-<%= game.matches.id %>" role="tablist">
+              <% if (game.matches && game.matches.length > 0) { %>
+                <div class="tab-pane fade" id="game-<%= game.id %>" role="tabpanel">
+                  <h2><%= game.title %></h2>
+                  <div class="list-group list-group-horizontal-md overflow-auto mb-3" id="list-tab-<%= game.id %>" role="tablist">
                     <% game.matches.forEach(match => { %>
-                      <a class="list-group-item list-group-item-action" data-toggle="list" href="#" role="tab" id="" onclick="getMatchMetrics(<%= match.id %>, <%= game.id %>)">
+                      <a class="list-group-item list-group-item-action match-group-item" data-toggle="list" href="#" role="tab" id="" onclick="getMatchMetrics(<%= match.id %>, <%= game.id %>)">
                         <div class="d-flex justify-content-between align-items-center">
                           <span><%= match.username %></span>
                           <% if (match.match_level > 90) { %>
@@ -52,10 +51,55 @@
                       </a>
                     <% }) %>
                   </div>
-                <% } else { %>
-                  <p class="display-4">No matches found :(</p>
-                <% } %>
-              </div>
+                  <div id="metrics-<%= game.id %>">
+                      <p id="comment-match<%= game.id %>"></p>
+                    <form>
+                      <div class="form-group">
+                        <label for="casual_competitive<%= game.id %>">Is this for fun, or for real?</label>
+                        <div>
+                          <input type="range" class="custom-range user-range" id="casual_competitive<%= game.id %>" max="10" disabled>
+                          <input type="range" class="custom-range match-range" id="casual_competitive-match<%= game.id %>" max="10" disabled>
+                        </div>
+                        <small class="form-text text-muted d-flex justify-content-between"><span>Casual</span><span>Competitive</span></small>
+                      </div>
+                      <div class="form-group">
+                        <label for="short_long<%= game.id %>">Are you hoping for a short-term gig, or a commitment?</label>
+                        <div>
+                          <input type="range" class="custom-range user-range" id="short_long<%= game.id %>" max="10" disabled>
+                          <input type="range" class="custom-range match-range" id="short_long-match<%= game.id %>" max="10" disabled>
+                        </div>
+                        <small class="form-text text-muted d-flex justify-content-between"><span>Short-Term</span><span>Long-Term</span></small>
+                      </div>
+                      <div class="form-group">
+                        <label for="partner_team<%= game.id %>">Looking for a partner, or a team?</label>
+                        <div>
+                          <input type="range" class="custom-range user-range" id="partner_team<%= game.id %>" max="10" disabled>
+                          <input type="range" class="custom-range match-range" id="partner_team-match<%= game.id %>" max="10" disabled>
+                        </div>
+                        <small class="form-text text-muted d-flex justify-content-between"><span>Partner</span><span>Team</span></small>
+                      </div>
+                      <div class="form-group">
+                        <label for="strategic_gunblazer<%= game.id %>">Do you like to strategize, or do you jump in, guns blazing?</label>
+                        <div>
+                          <input type="range" class="custom-range user-range" id="strategic_gunblazer<%= game.id %>" max="10" disabled>
+                          <input type="range" class="custom-range match-range" id="strategic_gunblazer-match<%= game.id %>" max="10" disabled>
+                        </div>
+                        <small class="form-text text-muted d-flex justify-content-between"><span>Strategic</span><span>Gunblazer</span></small>
+                      </div>
+                      <div class="form-group">
+                        <label for="learn_lead<%= game.id %>">Which role do you prefer to take?</label>
+                        <div>
+                          <input type="range" class="custom-range user-range" id="learn_lead<%= game.id %>" max="10" disabled>
+                          <input type="range" class="custom-range match-range" id="learn_lead-match<%= game.id %>" max="10" disabled>
+                        </div>
+                        <small class="form-text text-muted d-flex justify-content-between"><span>Learner</span><span>Leader</span></small>
+                      </div>
+                    </form>
+                  </div>
+
+
+                </div>
+              <% } %>
             <% }) %>
           </div>
         </div>
