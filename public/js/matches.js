@@ -19,7 +19,26 @@ function getQueryParams(str) {
 }
 
 
-function getMetrics(match_id, game_id) {
+function getUserMetrics(game_id) {
+
+  var metricsInfo = {
+    game_id: game_id
+  }
+
+  $.post('/getMetrics', metricsInfo, res => {
+
+    if (res.success) {
+      let userMetricsDiv = $(`user-metrics-${game_id}`)
+      
+    }
+    else {
+      console.log(res.message)
+    }
+  })
+}
+
+
+function getMatchMetrics(match_id, game_id) {
 
   var matchInfo = {
     match_id: match_id,
@@ -29,8 +48,7 @@ function getMetrics(match_id, game_id) {
   $.post('/getMetrics', matchInfo, res => {
 
     if (res.success) {
-      $(`#user-metrics-${<%= game.id %>}`).text() += JSON.stringify(res)
-    
+
       console.log(res)
     }
     else {

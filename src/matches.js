@@ -109,9 +109,17 @@ const updateMatches = (req) => {
 const getMetrics = (req, res) => {
   console.log('Obtaining metrics...')
 
-  const sql = "SELECT DISTINCT user_metrics.user_id, casual_competitive, short_long, partner_team, strategic_gunblazer, learn_lead FROM user_metrics INNER JOIN matches ON user_metrics.game_id = matches.game_id WHERE (user_metrics.user_id = $1 OR user_metrics.user_id = $2) AND user_metrics.game_id = $3"
+  let person_id
+  if (req.body.match_id) {
+    person_id = req.body.match_id
+  }
+  else {
+    person_id = req.session.user_id
+  }
 
-  const params = [req.session.user_id, req.body.match_id, req.body.game_id]
+  const sql = "SELECT DISTINCT user_metrics.user_id, casual_competitive, short_long, partner_team, strategic_gunblazer, learn_lead, comment FROM user_metrics INNER JOIN matches ON user_metrics.game_id = matches.game_id WHERE user_metrics.user_id = $1 AND user_metrics.game_id = $2"
+
+  const params = [person_id, req.body.game_id]
 
   pool.query(sql, params, (err, result) => {
     if (err) {
