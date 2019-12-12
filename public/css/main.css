@@ -31,9 +31,9 @@
   border-color: slateblue !important;
 }
 
-.user-range::-webkit-slider-thumb { background: dodgerblue; }
+.user-range:disabled::-webkit-slider-thumb { background: dodgerblue; }
 .user-range:disabled::-moz-range-thumb { background: dodgerblue; }
-.user-range::-ms-thumb { background: dodgerblue; }
-.match-range::-webkit-slider-thumb { background: slateblue; }
+.user-range:disabled::-ms-thumb { background: dodgerblue; }
+.match-range:disabled::-webkit-slider-thumb { background: slateblue; }
 .match-range:disabled::-moz-range-thumb { background: slateblue; }
-.match-range::-ms-thumb { background: slateblue; }
+.match-range:disabled::-ms-thumb { background: slateblue; }
